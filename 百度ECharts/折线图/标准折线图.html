@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="main" style="height: 400px;"></div>
+		<script src="http://echarts.baidu.com/build/dist/echarts.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			//路径配置
+			require.config({
+				//引入百度的路径
+				paths:{
+					echarts:"http://echarts.baidu.com/build/dist"
+				}
+			})
+			//使用
+			require(
+				[
+					//基类
+					'echarts',
+					//折线图
+					'echarts/chart/line'
+				],
+				function (ec){
+					var myChart=ec.init(document.getElementById("main"));
+					var option={
+						//标题
+						title:{
+							//文本
+							text:"未来一周气温变化",
+							//子标题
+							subtext:"纯属虚构"
+						},//!-文本
+						
+						//提示框
+						tooltip:{
+							//坐标轴触发显示
+							trigger:"axis"
+							
+						},
+							
+							//图例 每个图表只能有一个
+							legend:{
+								data:['最高气温','最低气温']
+							},//!-图例
+							
+							//工具箱 每个图表只能有一个
+							toolbox:{
+								//是否显示工具箱 图表右上角的一系列开关
+								show:true,
+								//特效duang
+								feature:{
+									//辅助线标志
+									mark:{show:true},
+									//数据视图 可以显示文本数据 
+									//是否仅读？NO
+									dataView:{show:true,readOnly:false},
+									//可以切换更多的图形特效吗？
+									//YSE! 可以切换line和bar类型
+									magicType:{show:true,type:["line",'bar']},
+									//卧槽！按错了，可以复原吗？
+									//YES!
+									restore:{show:"true"},
+									//是否可以保存为图片？
+									//YES!图片可以嵌入PPT里哦~
+									saveAsImage:{show:true}
+								},//！-特效
+								
+							},//!-工具箱
+							
+							//拖拽计算
+							//卧槽，图表里的数据还可以拖拽重新计算？
+							calculable:true,
+							//!-拖拽计算
+							
+							//横坐标
+							xAxis:[
+								{
+									//X轴为类目型
+									type:"category",
+									//是否两端留白？
+									boundaryGap:false,
+									//横坐标数据 
+									//只有类目型的才配拥有data属性！
+									data:["周一","周二","周三","周四","周五","周六","周日"]
+									
+								}
+							],//!-横坐标
+							
+							//纵坐标
+							yAxis:[
+								{
+									//Y轴类型为数值型
+									type:"value",
+									//Y轴的文本标签
+									//改成 万°C会不会被喷？
+									axisLabel:{
+										//间隔名称..实际上就是单位 
+										//{value}传递过来的就是值
+										formatter:"{value}°C"
+									}
+								}
+							],
+							//!-纵坐标
+							
+							//图表数据
+							series:[
+							//数据一
+								{
+									name:"最高气温",
+									//必要的参数
+									//不声明为line,电脑妹纸会知道你是个line？
+									type:"line",
+									//最高气温
+									//对应周一-周日
+									data:[11,11,15,13,12,13,10],
+									//标注 也就是图表上的那个类似于提示气泡的东西
+									markPoint:{
+										data:[
+											//会出现两个提示气泡
+											//一周类当中最高气温最大为多少
+											{type:"max",name:"最大值"},
+											//一周类最高气温最低为多少
+											{type:"min",name:"最小值"}
+										]
+									},
+									//!-标注
+									
+									//标注 辅助线
+									markLine:{
+										data:[
+										//在最高气温会出现一条平均值的线
+										//鼠标移上去会出现三个字 ”平均值“
+											{type:"average",name:"平均值"}
+										]
+									},
+									//!-标注 辅助线
+								},//!数据一
+								
+								//数据二
+								{
+									name:"最低气温",
+									type:"line",
+									data:[1,-2,2,5,3,2,0],
+									markPoint:{
+										data:[
+											//指定地方冒一个气泡
+											//值为2
+											//出现的地方在X轴的第二个数值也就是周二
+											//Y轴的-1.5也就是往下走1.5步~
+											{name:"周最低",value:-2,xAxis:1,yAxis:-1.5}
+										]
+									},
+									markLine:{
+										data:[
+											{type:"average",name:"平均值"}
+										]
+									}
+									
+								}
+							]
+							//!-图表数据
+							
+							
+						
+					}//options
+					myChart.setOption(option);
+				}//func
+			)
+			
+		</script>
+	</body>
+</html>
