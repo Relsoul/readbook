@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="jquery2.0.3源码.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<script type="text/javascript">
+			(function(){
+				
+			})(window)
+			var undefined=10;
+			console.log(undefined)
+			
+			//可维护
+//			var ispeed=10;
+//			a=a+ispeed;
+			
+			//用type of判断 和undefined判断不同
+			window.a==undefined;
+			//老版本浏览器下判断是一个xml的时候需要用到
+			typeof window.a=='undefined'
+			
+			//防冲突
+			$();
+			jQuery()
+			
+			//class2type 类型判断用
+			$.type;
+			class2type={"[Object String]":"string"}
+			
+			//trim 去掉前后空格
+			//IE9以上
+			"test".trim()
+			console.log(" test ".replace(/(^\s+)|(\s$)/g,""))
+			
+			console.log($().trim)
+			console.log($.trim)
+			
+			//构造器
+			
+				//普通写法
+			function Aaa(){}
+			Aaa.prototype.init=function(){}
+			var al=new Aaa();
+			al.init();
+				//jquery
+			function jq(){
+				//调用初始化方法 返回一个实例
+				return new jq.prototype.init();
+			}
+			jq.prototype.init=function(){}
+			jq.prototype.css=function(){}
+			//重定义原型
+			jq.prototype.init.prototype=jq.prototype
+			jq().css()
+			
+			console.log($())
+			console.log($)
+		</script>
+	</body>
+</html>
