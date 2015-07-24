@@ -13,7 +13,7 @@
     <div id="main" style="height:400px"></div>
 </body>
 ```
-###2、新建<script>标签引入模块化单文件echarts.js
+###2、新建script标签引入模块化单文件echarts.js
 ```
 <!DOCTYPE html>
 <head>
@@ -28,7 +28,7 @@
 </body>
 ```
 
-###3、新建<script>标签中为模块加载器配置echarts和所需图表的路径（相对路径为从当前页面链接到echarts.js），引入图表文件见引入[ECharts2](http://echarts.baidu.com/doc/doc.html#引入ECharts2)
+###3、新建script标签中为模块加载器配置echarts和所需图表的路径（相对路径为从当前页面链接到echarts.js），引入图表文件见引入[ECharts2](http://echarts.baidu.com/doc/doc.html#引入ECharts2)
 ```
 <!DOCTYPE html>
 <head>
@@ -51,7 +51,7 @@
 </body>
 ```
 
-###4、<script>标签内动态加载echarts和所需图表，回调函数中可以初始化图表并驱动图表的生成，option见[API & Doc](http://echarts.baidu.com/doc/doc.html#Option)
+###4、script标签内动态加载echarts和所需图表，回调函数中可以初始化图表并驱动图表的生成，option见[API & Doc](http://echarts.baidu.com/doc/doc.html#Option)
 ```
 <!DOCTYPE html>
 <head>
