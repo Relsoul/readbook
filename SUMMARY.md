@@ -13,7 +13,7 @@
 	*[介绍](JavaScript设计模式/介绍/)
 	*[设计模式](JavaScript设计模式/设计模式/)
 * [angular](angular)
-	*[html实践-*](angular/html实践/readme.md)
+	*[html实践-](angular/html实践/readme.md)
 	*[初步学习-入门](angular/初步学习笔记/readme-1.md)
 	*[初步学习-控制器](angular/初步学习笔记/readme-2.md)
 	*[初步学习-常用指令](angular/初步学习笔记/readme-3.md)
