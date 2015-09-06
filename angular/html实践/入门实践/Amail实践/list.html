@@ -1,0 +1,13 @@
+<table>
+	<tr>
+		<td><strong>发送者</strong></td>
+		<td><strong>主题</strong></td>
+		<td><strong>日期</strong></td>
+	</tr>
+	<tr ng-repeat="mail in data">
+		<td>{{mail.sender}}</td>
+		<td><a href="#/view/{{mail.id}}">{{mail.subject}}</a></td>
+		<td>{{mail.date}}</td>
+		<a href="#/test/ss?search=mm">clickme</a>
+	</tr>
+</table>

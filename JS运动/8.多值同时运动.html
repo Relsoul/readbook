@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			#div1 {
+				width: 100px;
+				height: 100px;
+				background: red;
+				position: absolute;
+				left: 400px;
+				top: 100px;
+			}
+		}
+		</style>
+		<script type="text/javascript">
+			/*在JS中，如何让一个页面元素动起来
+			 */
+			window.onload = function() {
+				var oDiv1 = document.getElementById("div1");
+				oDiv1.onclick = function() {
+					//上面的运动会清除掉上面的定时器
+					/*	startMove(this,"height",200,10)
+						startMove(this,"width",200,10)*/
+					startMove(this, {
+						width: 200,
+						height: 200
+					}, 10)
+				}
+
+				function startMove(obj, json, iSpeed) {
+					var iCur = 0;
+					//当鼠标运动一半的时候移入另一个div 会清除原来移入的div的timer 导致原运动stop
+					//所以挂载到元素身上
+					clearInterval(obj.iTimer);
+					obj.iTimer = setInterval(function() {
+						//定时器每运动一次就要把运动的属性都推进一次
+						for (var attr in json) {
+							var iTarget=json[attr]
+							//iCur变为整数进行运算 四舍五入变为一个精确值
+							if (attr == "opacity") {
+								iCur = Math.round(css(obj, "opacity") * 100) //标准:0.3,ie:0.3 
+							} else {
+								iCur = parseInt(css(obj, attr));
+							}
+							if (iCur == iTarget) {
+								clearInterval(obj.iTimer);
+							} else {
+								if (attr == "opacity") {
+									obj.style.opacity = (iCur + iSpeed) / 100;
+									obj.style.filter = "alpha(opacity=" + (iCur + iSpeed) + ")"
+								} else {
+									obj.style[attr] = iCur + iSpeed + "px"
+								}
+							}
+						}
+					}, 30)
+				}
+
+				function css(obj, attr) {
+					if (obj.currentStyle) {
+						//currentStyle可以读取CSS的自定义的值
+						return obj.currentStyle[attr];
+					} else {
+						return getComputedStyle(obj, false)[attr];
+					}
+				}
+			}
+		</script>
+	</head>
+
+	<body>
+		<div id="div1">
+		</div>
+	</body>
+
+</html>

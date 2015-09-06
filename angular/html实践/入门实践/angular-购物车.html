@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html ng-app="cash">
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src='http://apps.bdimg.com/libs/angular.js/1.3.9/angular.js' type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div ng-controller="sumCash">
+			<p>价格:<input type="text" ng-model="iphone.money"/></p>
+			<p>个数:<input type="text" ng-model="iphone.num" /></p>
+			<p>费用:<span>{{sum()|currency:'￥'}}</span></p>
+			<p>运费:<span>{{iphone.fre|currency:'￥'}}</span></p>
+			<p>总额:<span>{{sum()+iphone.fre|currency:'￥'}}</span></p>
+		</div>
+		<script type="text/javascript">
+			var App=angular.module("cash",[])
+			App.controller("sumCash",function($scope){
+				$scope.iphone={
+					money:5,
+					num:1,
+					fre:10
+				}
+				$scope.sum=function(){
+					return	$scope.iphone.money*$scope.iphone.num
+				}
+				//监听
+				//监听多值 true
+/*				$scope.$watch("iphone.money",function(newVal,oldVal){
+					//接受两个参数 新值和旧值
+					console.log(newVal,oldVal)
+				},true)*/
+				
+				//监听函数
+				$scope.$watch($scope.sum,function(newVal,oldVal){
+					//接受两个参数 新值和旧值
+					$scope.iphone.fre=newVal>=100?0:10;
+				},true)
+				
+				
+			})
+		</script>
+	</body>
+</html>

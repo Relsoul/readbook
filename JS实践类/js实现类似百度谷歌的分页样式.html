@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<!-- saved from url=(0062)http://www.gbtags.com/gb/rtreplayerpreview-standalone/1317.htm -->
+<html lang="zh"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>js实现类似百度谷歌的分页样式</title>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta author="极客标签：www.gbtags.com">
+<meta name="Description" content="极客标签是一个基于web的在线极客编程知识分享&amp;学习平台，能够帮助你快速高效地学习代码编程并方便的在线实时分享编程技巧和心得">
+<meta name="Keywords" content="极客,极客标签,轻视频,代码录播,在线调试,前端,前端社区,前端特效,素材,html5,javascript,css3,jquery,bootstrap,bootstrap3">
+<style>
+/*CSS源代码*/
+.pager { padding: 0; margin: 20px 0; overflow: hidden; }
+.pager li {list-style:none; float: left; padding: 3px 10px; border: 1px solid #EEE; font-size: 14px; margin-right: 5px; transition: all ease 0.3s; }
+.pager li { cursor: pointer; }
+.pager li.disabled, .pager li.disabled:hover { color: #DDD; background: #FFF; border: 1px solid #EEE; }
+.pager li:hover { background: #FFC0CD; color: #DF3031; border: 1px solid #DF3031; }
+.pager li.cur { background: #DF3031; color: #FFF; border: 1px solid #DF3031; }
+
+</style>
+<style type="text/css">#yddContainer{display:block;font-family:Microsoft YaHei;position:relative;width:100%;height:100%;top:-4px;left:-4px;font-size:12px;border:1px solid}#yddTop{display:block;height:22px}#yddTopBorderlr{display:block;position:static;height:17px;padding:2px 28px;line-height:17px;font-size:12px;color:#5079bb;font-weight:bold;border-style:none solid;border-width:1px}#yddTopBorderlr .ydd-sp{position:absolute;top:2px;height:0;overflow:hidden}.ydd-icon{left:5px;width:17px;padding:0px 0px 0px 0px;padding-top:17px;background-position:-16px -44px}.ydd-close{right:5px;width:16px;padding-top:16px;background-position:left -44px}#yddKeyTitle{float:left;text-decoration:none}#yddMiddle{display:block;margin-bottom:10px}.ydd-tabs{display:block;margin:5px 0;padding:0 5px;height:18px;border-bottom:1px solid}.ydd-tab{display:block;float:left;height:18px;margin:0 5px -1px 0;padding:0 4px;line-height:18px;border:1px solid;border-bottom:none}.ydd-trans-container{display:block;line-height:160%}.ydd-trans-container a{text-decoration:none;}#yddBottom{position:absolute;bottom:0;left:0;width:100%;height:22px;line-height:22px;overflow:hidden;background-position:left -22px}.ydd-padding010{padding:0 10px}#yddWrapper{color:#252525;z-index:10001;background:url(chrome-extension://eopjamdnofihpioajgfdikhhbobonhbb/ab20.png);}#yddContainer{background:#fff;border-color:#4b7598}#yddTopBorderlr{border-color:#f0f8fc}#yddWrapper .ydd-sp{background-image:url(chrome-extension://eopjamdnofihpioajgfdikhhbobonhbb/ydd-sprite.png)}#yddWrapper a,#yddWrapper a:hover,#yddWrapper a:visited{color:#50799b}#yddWrapper .ydd-tabs{color:#959595}.ydd-tabs,.ydd-tab{background:#fff;border-color:#d5e7f3}#yddBottom{color:#363636}#yddWrapper{min-width:250px;max-width:400px;}</style></head>
+<body>
+<!-- HTML代码片段中请勿添加<body>标签 //-->
+<div id="pager" class="pager"><li class="first">首页</li><li class="prev">上一页</li><li class="num ">5</li><li class="num ">6</li><li class="num cur">7</li><li class="num ">8</li><li class="num ">9</li><li class="next">下一页</li><li class="last">尾页</li></div>
+
+
+
+<!-- 推荐开源CDN来选取需引用的外部JS //-->
+<script type="text/javascript" src="./js实现类似百度谷歌的分页样式_files/jquery.min.js"></script>
+
+<script>
+/*Javascript代码片段*/
+/*
+* pageNum 当前页码
+* pageCount 总页数
+* event 点击事件
+* showCount 显示几页部分,为了美观最好是基数，默认5
+*/
+$.fn.pager = function (pageNum, pageCount, event, showCount) {
+        showCount = showCount || 6;
+        var half = Math.floor(showCount / 2);
+        if (pageCount == 1) {
+            return;
+        }
+        var initPages = function (from, to) {
+            var nums = '';
+            for (var i = from; i <= to; i++) {
+                nums += '<li class="num ' + (pageNum == i ? 'cur' : '') + '">' + i + '</li>';
+            }
+            return nums;
+        };
+        this.each(function () {
+            var $this = $(this);
+            var $first = $('<li class="first">首页</li>');
+            var $prev = $('<li class="prev">上一页</li>');
+            var $next = $('<li class="next">下一页</li>');
+            var $last = $('<li class="last">尾页</li>');
+            var nums;
+            //这部分判断是唯一的核心部分
+            if (pageCount <= showCount) {
+                nums = initPages(1, pageCount);
+            } else {
+                if (pageNum <= half) {
+                    nums = initPages(1, showCount);
+                } else {
+                    if (pageNum + half <= pageCount) {
+                        nums = initPages(pageNum - half, pageNum + half);
+                    } else {
+                        nums = initPages(pageCount - (showCount - 1), pageCount);
+                    }
+                }
+            }
+            //添加首页尾页上一页下一页效果和事件
+            $this.html(nums).prepend($prev).prepend($first).append($next).append($last);
+            if (pageNum == 1) {
+                $first.addClass('disabled');
+                $prev.addClass('disabled');
+            } else if (pageNum == pageCount) {
+                $last.addClass('disabled');
+                $next.addClass('disabled'); 
+            }
+            if (typeof event == 'function') {
+                $this.children('.num').on('click', function () {
+                    event($(this).text());
+                });
+                $first.not('.disabled').on('click', function () {
+                    event(1);
+                });
+                $prev.not('.disabled').on('click', function () {
+                    event(pageNum - 1);
+                });
+                $last.not('.disabled').on('click', function () {
+                    event(pageCount);
+                });
+                $next.not('.disabled').on('click', function () {
+                    event(pageNum + 1);
+                });
+            }
+        });
+
+    }
+    
+$('#pager').pager(4,8,function(n){ //修改参数自己试试吧
+    alert('点击的是第'+n+'页，这里可以改为链接跳转或ajax加载重绘等等');
+});
+
+
+</script>
+
+
+</body></html>

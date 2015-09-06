@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			a{
+				text-decoration: none;
+				margin: 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="pages"></div>
+		<script type="text/javascript">
+			var Pages={};
+	//			opts{
+	//				id:当前elem,
+	//				nowNum:当前页数,
+	//				showPage:显示几页,
+	//				allNum:总页数
+	//			}
+				Pages.startPage=function(opts){
+					var _elem=document.getElementById(opts.id);
+					var _nowNum=opts.nowNum;var _showPage=opts.showPage;var _allNum=opts.allNum;
+					var halfPage=Math.floor(_showPage/2);
+					console.log(halfPage)
+					var addElem=function(from,to){
+						var oA;
+						_elem.innerHTML=""
+						for(var i=from;i<=to;i++){
+							oA=document.createElement("a");
+							oA.href="#"+i;
+							oA.innerHTML=(_nowNum==i?i:"["+i+"]")
+							_elem.appendChild(oA)
+						}
+						//添加上一页
+						 oA=document.createElement("a");
+						oA.href="#"+(_nowNum-1);
+						oA.innerHTML="上一页";
+						_elem.insertBefore(oA,_elem.firstChild)
+						//添加下一页
+						oA=document.createElement("a");
+						oA.href="#"+(_nowNum+1);
+						oA.innerHTML="下一页";
+						_elem.appendChild(oA)
+					}
+					//总页数小于等于显示页数的时候
+					if(_allNum<=_showPage){
+						addElem(1,_allNum )
+					}else{
+						//当前页码小于等于一半的页数 也就是当前页面还在左边的时候
+						if(_nowNum<=halfPage){
+							//直接从1生成至显示页数
+							addElem(1,_showPage)
+							//当前页码大于half页数 也就是当前页在右边的时候
+						}else{
+							//当前页码加上一半的页码小于等于总页码
+							//什么意思呢？
+							//当前页码还在右边的范围不超出总页数 值得注意的是_nowNum加了一个halfPage
+							//7+3<=10?
+							if(_nowNum+halfPage<=_allNum){
+								//7-3,(7+3)-1 也必须保证7个数字
+								addElem(_nowNum-halfPage,(_nowNum+halfPage)-1)
+							}else{
+								//当前页码加上一半的页码大于总页码
+								//10-(7-1),10
+								//要保证showPage正好是7个 所以 _allNum - (_showPage - 1)
+								addElem(_allNum - (_showPage - 1), _allNum)
+							}
+						}
+					}
+					
+				}
+				Pages.opts={
+					id:"pages",
+					nowNum:8,
+					showPage:7,
+					allNum:10
+				}
+				Pages.bd=function(){
+				var _elem=document.getElementById(Pages["opts"].id);
+				_elem.addEventListener("click",function(e){
+							e=e||event;
+							if(e.target.href.match(/[0-9]+$/)[0]>10||e.target.href.match(/[0-9]+$/)[0]<1){
+								return false
+							}
+							console.log(e.target.href)
+							var _now=parseInt(e.target.href.match(/[0-9]+$/)[0]);
+							var _opts={
+								id:Pages["opts"].id,
+								nowNum:_now,
+								showPage:Pages["opts"].showPage,
+								allNum:Pages["opts"].allNum
+							}
+							Pages.startPage(_opts)
+						})
+				}
+				Pages.init=function(opts){
+					Pages.opts=opts;
+					Pages.startPage(Pages.opts)
+					Pages.bd()
+				}
+				Pages.init({id:"pages",
+					nowNum:7,
+					showPage:7,
+					allNum:10})
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			#div1{
+				width: 100px;height: 200px;background: red;position: absolute;left: -100px;top: 100px;
+			}
+			#div2{
+				width: 30px;height: 60px;background:black ;position: absolute;right: -30px;top:70px;
+				color: #fff;text-align: center;
+			}
+			#img1{
+				opacity: 0.3;filter: alpha(opacity=30);margin-left: 200px;
+			}
+		</style>
+		<script type="text/javascript">
+			/*在JS中，如何让一个页面元素动起来
+			 */
+			window.onload=function(){
+				var oBtn=document.getElementById("btn");
+				var oDiv1=document.getElementById("div1");
+				var oDiv2=document.getElementById("div2");
+				var oImg=document.getElementById("img1");
+				var iTimer=null;
+				console.log(css(oImg,"opacity") )//0.30000012... 
+				//点击按钮 让div1横向向右移动
+				//定时器
+				/*步骤*
+				 *1，清除定时器，保证运动过程中只有一个定时器 在执行
+				 *2，开启定时器
+				 *3，开始运动（同时在运动加入判断，以便在需要的时候或者满足某个要求的时候停止）
+				 */
+				
+				oImg.onmouseover=function(){
+					startMove(this,100,10)
+				}
+				
+				oImg.onmouseout=function(){
+					startMove(this,30,-10)
+				}
+				
+				oDiv1.onmouseover=function(){
+//					this.style.left="0px";
+					startMove(this,0,10)
+				}
+				
+				oDiv1.onmouseout=function(){
+//					this.style.left="-100px";
+					startMove(-100,-10)
+				}
+				
+				function startMove(obj,iTarget,iSpeed){
+					var iCur=0;
+					clearInterval(iTimer)
+					iTimer=setInterval(function(){
+						//iCur变为整数进行运算 四舍五入变为一个精确值
+						iCur=Math.round(css(obj,"opacity")*100)  //标准:0.3,ie:0.3 
+						if(iCur==iTarget){
+							clearInterval(iTimer);
+						}else{
+							obj.style.opacity=(iCur+iSpeed)/100;
+							obj.style.filter="alpha(opacity="+(iCur+iSpeed)+")"
+						}
+					},30)
+				}
+				
+				function css(obj,attr){
+					if(obj.currentStyle){
+						//currentStyle可以读取CSS的自定义的值
+						return obj.currentStyle[attr];
+					}else{
+						return getComputedStyle(obj,false)[attr];
+					}
+				}
+				
+				
+			}
+		</script>
+	</head>
+	<body>
+	<div id="div1">
+		<div id="div2">分享到</div>
+	</div>
+	<img src="1.jpg" id="img1"/>
+	</body>
+</html>

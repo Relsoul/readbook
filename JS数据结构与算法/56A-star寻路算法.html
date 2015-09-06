@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8" />
+		<title>Document</title>
+		<script type="text/javascript">
+			/*		一:寻路模式
+									-深度优先搜索
+									-广度优先搜索
+									-启发式搜索
+										-A*算法*/
+/*					二:A*估价函数
+					f(n)=g(n)+h(n);
+						-f(n)是n节点的估计函数
+						-g(n)是初始点到n节点的实际代价
+						-h(n)是n节点到目标节点的实际代价*/
+/*					三:A*算法程序时间
+					-open队列
+						-排序估价函数
+					-close队列
+						-排除干扰节点
+					-查询相邻位置
+					-封装估价函数f()g()h()
+					-设置父节点指针
+					*/
+		</script>
+		<style type="text/css">
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			li {
+				list-style: none;
+			}
+			#ull {
+				height: auto;
+				overflow: hidden;
+				margin: 20px auto;
+				border: 1px solid #000000;
+				border-bottom: none;
+				border-right: none;
+			}
+			#ull li {
+				border: 1px solid #000000;
+				border-left: none;
+				border-top: none;
+				float: left;
+			}
+			#ull li.sty1 {
+				background: red;
+			}
+			/*起始位置*/
+			
+			#ull li.sty2 {
+				background: green;
+			}
+			/*终点*/
+			
+			#ull li.sty3 {
+				background: blue;
+			}
+			/*障碍物*/
+			
+			#input1 {
+				width: 100px;
+				position: absolute;
+				left: 50%;
+				margin-left: -50px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<ul id="ull"></ul>
+		<input type="button" value="开始寻路" id="input1" />
+		<script type="text/javascript">
+			var oUl = document.getElementById("ull");
+			var aLi = oUl.getElementsByTagName("li");
+			var oInput = document.getElementById("input1");
+			var beginLi=oUl.getElementsByClassName("sty1");
+			var endLi=oUl.getElementsByClassName("sty2");
+			
+			var map = [
+				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+				0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+				0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0,
+				0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0,
+				0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 2, 0, 0, 0, 0, 0, 0, 0,
+				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+				0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 0, 3, 3, 0, 0, 0, 0, 0, 0,
+				0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0,
+				0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0,
+				0, 0, 0, 0, 0, 0, 0, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+				0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+			]
+			var cols = Math.sqrt(map.length);
+			var sizeGird = 20;
+			var openArr=[];
+			var closeArr=[];
+			init()
+
+			function init() {
+				createMap()
+				oInput.onclick=function(){
+					openFn()
+				}
+			}
+			//创建地图
+			function createMap() {
+				//设置大小
+				oUl.style.width = (1 + sizeGird) * cols + 1 + "px"
+				//添加li
+				for (var i = 0; i < map.length; i++) {
+					var oLi = document.createElement("li");
+					oLi.style.width = sizeGird + "px"
+					oLi.style.height = sizeGird + "px"
+					oUl.appendChild(oLi)
+					switch (map[i]) {
+						case 1:
+							oLi.className = "sty1"
+							//开始节点
+							openArr.push(oLi)
+							break;
+						case 2:
+							oLi.className = "sty2"
+							break;
+						case 3:
+							oLi.className = "sty3"
+							//障碍物
+							closeArr.push(oLi)
+							break;
+					}
+				}
+			}
+		
+		function openFn(){
+			//起点作为open队列的唯一起始
+			//open:红色方块
+			//一:open扔进close队列
+			//二:open相邻八个方块 左上，上，右上，左，右,左下，下，右下 扔进open队列
+			//三:把相邻最优的方块扔进close
+			//四:下一步需要走的排除已经存在于open队列中的.把不存在的添加到open队列中
+			var nowLi=openArr.shift()//shift() 方法用于把数组的第一个元素从其中删除，并返回第一个元素的值。
+			if(nowLi==endLi[0]){
+				showLine()
+				return;
+			}
+			closeFn(nowLi)
+			findLi(nowLi)
+			openArr.sort(function(li1,li2){
+				//整体数组呈一个升序状态
+				//如果li1.num大于li2.num会排在数组后面 也就是return >=1
+				//如果li1.num小于li2.num会排在数组前面 也就是return <=-1
+				//小于0排前,大于0排后,等于0不变
+				return li1.num-li2.num
+			})
+			openFn()
+			
+		}
+		function closeFn(nowLi){
+			//close:蓝色方块障碍物
+			closeArr.push(nowLi)
+		}
+		//查找Li周围函数
+		function findLi(nowLi){
+			var result=[]
+			//每次从aLi元素第一个遍历开始
+			for(var i=0;i<aLi.length;i++){
+				//如果不存在重复走过的Li也就是closeArr里面不存在aLi[I]
+				if(filter(aLi[i])){
+					//给相邻节点数组添加上当前aLi
+					result.push(aLi[i])
+				}
+			}
+			function filter(li){
+				//过滤已经走过的节点
+				for(var i=0;i<closeArr.length;i++){
+					//如果是走过的节点
+					if(closeArr[i]==li){
+						return false
+					}
+				}
+				//过滤添加节点
+				for(var i=0;i<openArr.length;i++){
+					if(openArr[i]==li){
+						return false
+					}
+				}
+				//没有走过
+				return true
+			}
+			for(var i=0;i<result.length;i++){
+				//offsetLeft offsetTop 小于一定范围就为相邻范围
+				//也就是小于21为相邻
+//				console.log("now",nowLi.offsetLeft,nowLi)
+//				console.log("result",result[i].offsetLeft,result[i])
+			if((Math.abs(nowLi.offsetLeft-result[i].offsetLeft)<=(sizeGird+1))&&
+					(Math.abs(nowLi.offsetTop-result[i].offsetTop)<=(sizeGird+1))
+				){
+					result[i].num=f(result[i])
+					result[i].parent=nowLi;
+					openArr.push(result[i])
+				}
+			}
+		}
+		function showLine(){
+				//设置父节点指针
+				var result=[];
+				var iNow=0;
+				//pop() 方法用于删除并返回数组的最后一个元素
+				//从最后一个li开始遍历
+				var lastLi=closeArr.pop();
+				//递归循环变量
+				findParent(lastLi)
+				function findParent(li){
+					console.log(result)
+					console.log(beginLi)
+					//unshift() 方法可向数组的开头添加一个或更多元素,并返回新的长度
+					result.unshift(li)
+					//如果li的上一个li等于开始的节点
+					if(li.parent==beginLi[0]){
+						return;
+					}
+					//递归循环 从结尾往开头
+					findParent(li.parent)
+				}
+				var timer=setInterval(function(){
+					//生成路径
+					result[iNow].style.background="red";
+					iNow++;
+					if(iNow==result.length){
+						clearInterval(timer)
+					}
+				},500)
+		}
+		
+		function f(nodeLi){
+			//找到估价函数的最小值
+			return g(nodeLi)+h(nodeLi)
+		}
+		function g(nodeLi){
+			//利用勾股定理实现
+			//a边为起始点-目标节点的left距离 三角形的下边
+			//b为起始点-目标节点的top距离 三角形的斜边
+			//返回一个c
+			var a=beginLi[0].offsetLeft-nodeLi.offsetLeft
+			var b=beginLi[0].offsetTop-nodeLi.offsetTop
+			return Math.sqrt(a*a+b*b)
+		}
+		function h(nodeLi){
+			var a=endLi[0].offsetLeft-nodeLi.offsetLeft;
+			var b=endLi[0].offsetTop-nodeLi.offsetTop;
+			return Math.sqrt(a*a+b*b)
+		}
+		
+		
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+		</script>
+	</body>
+
+</html>

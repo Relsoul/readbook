@@ -19,7 +19,8 @@
 	* [初步学习-常用指令](angular/初步学习笔记/readme-3.md)
 	* [进阶学习-声明式思维](angular/进阶学习笔记/readme-1.md)
 	* [进阶学习-数据绑定](angular/进阶学习笔记/readme-2.md)
-	
+* [JS数据结构与算法](JS数据结构与算法)
+
 
  
 

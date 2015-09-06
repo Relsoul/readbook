@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			#div1{
+				width: 100px;height: 100px;background: red;position: absolute;left: 0px;top: 30px;
+			}
+		</style>
+		<script type="text/javascript">
+			/*在JS中，如何让一个页面元素动起来
+			 */
+			window.onload=function(){
+				var oBtn=document.getElementById("btn");
+				var oDiv=document.getElementById("div1");
+				//点击按钮 让div1横向向右移动
+				//定时器
+				/*步骤*
+				 *1，清除定时器，保证运动过程中只有一个定时器 在执行
+				 *2，开启定时器
+				 *3，开始运动（同时在运动加入判断，以便在需要的时候或者满足某个要求的时候停止）
+				 */
+				var iTimer=null;
+				oBtn.onclick=function(){
+					startMove()
+				}
+				
+				function startMove(){
+					clearInterval(iTimer)
+					iTimer=setInterval(function(){
+						if(oDiv.offsetLeft>=500){
+							clearInterval(iTimer)
+						}else{
+							oDiv.style.left=oDiv.offsetLeft+10+"px"
+						}
+					},30)
+				}
+				
+			}
+		</script>
+	</head>
+	<body>
+	<input type="button" value="动起来" id="btn" />
+	<div id="div1"></div>
+	</body>
+</html>

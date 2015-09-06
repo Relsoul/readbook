@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html ng-app="myapp">
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src='http://apps.bdimg.com/libs/angular.js/1.3.9/angular.js' type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var m1=angular.module("myapp",[])
+			//压缩的时候不采用依赖注入会把$scope压缩
+			m1.controller("Aaa",["$scope",function($s){
+				$s.name="hello world"
+			}])
+			
+//			angular.bind(fuc,fuc);->$.proxy() //this指向
+		function show(n1,n2){
+			console.log(this,n1,n2)
+		}
+		angular.bind(document,show,3)(4)
+		
+		//angular.copy() //拷贝对象
+/*		var a={
+			name:"hello"
+		}
+		var b={
+			age:"20"
+		}
+		
+		var c=angular.copy(a,b)//a把所有值覆盖给了b
+		console.log(b)//name:hello*/
+		
+		//angular.extend() //对象继承
+		var a={
+			name:"hello"
+		}
+		var b={
+			age:"20"
+		}
+		var c=angular.extend(b,a)//把a的值赋给了b 
+		//b name:hello age:20对
+		console.log(c,b)
+		
+		</script>
+	</head>
+	<body>
+		<div ng-controller="Aaa">
+			{{name}}
+		</div>
+	</body>
+</html>
