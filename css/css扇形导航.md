@@ -79,7 +79,7 @@
 ###JS
 ![结构](./img/css扇形-圆形导航.png)
 每个角度都是22.5° 16个li就是360°
-然后我们求出li的left和right就okay了~
+然后我们求出li的left和top就okay了~
 ```
 window.onload=function(){
 				var oButton=document.getElementById("menu_button");
