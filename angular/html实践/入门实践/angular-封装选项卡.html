@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html ng-app="myapp">
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+		<script src="angular.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+		#div1 .active,#div2 .active{
+			background: red;
+		}
+		#div1 div,#div2 div{
+			border: 1px solid black;
+			width: 200px;
+			height: 200px;
+			display: none;
+		}
+		</style>
+	</head>
+	<body>
+		<div ng-controller="aaa">
+			<my-tab my-id="div1" my-name="name" my-fn="show(num)"  my-data="data1" ></my-tab>
+			<my-tab my-id='div2'  my-name="name" my-fn="show(num)"  my-data="data2" ></my-tab>
+ 		</div>
+		<script type="text/javascript">
+			var app=angular.module("myapp",[])
+			app.controller("aaa",function($scope){
+				$scope.name="hello"
+				$scope.show=function(n){
+					alert(n)
+				}
+				$scope.data1=[{"title":"语文","content":"11111"},{"title":"数学","content":"22222"},{"title":"化学","content":"3333"}]
+				$scope.data2=[{"title":"生物","content":"44444"},{"title":"地理","content":"5555"}]
+			})
+			app.directive("myTab",function(){
+				return{
+					restrict:"E",//E:元素 A:属性 C:class
+					replace:"true",//替换
+/*					scope:true,//独立作用域*/
+					scope:{
+						//绑定都为父级的controller 而非本 类似于父级传递元素至当前元素控制器中
+						myId:"@myId",//绑定策略 绑定属性字符串
+						myName:"=myName",//= 解析字符串中的变量
+/*						myFn:"&myFn"//父级函数*/
+						myData:"=myData"
+					},//隔离作用域
+					controller:["$scope",function($scope){
+						$scope.name="soul"
+					}],//控制自定义指令范围内的变量
+					templateUrl:"temp.html",
+					link:function(scope,element,attr){
+						console.log(scope)//当前元素控制器（非父级控制器）scope
+						console.log(element)//元素本身
+						console.log(attr)//元素本身上的属性
+						$(element).on("click","input",function(e){
+							console.log(this)
+							$(this).attr("class","active").siblings("input").attr("class","")
+							$(this).siblings("div").eq($(this).index()).css("display","block").siblings("div").hide()
+						})
+					}
+				}
+			})
+
+		</script>
+	</body>
+</html>

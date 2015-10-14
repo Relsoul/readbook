@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html ng-app="myapp">
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="angular.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<div ng-controller="aaa">
+			<input type="text" ng-model="name" ng-keyup="change(name)" />
+			<input type="button" value="搜索" ng-click="change(name)" />
+			<ul>
+				<li ng-repeat="d in data">{{d}}</li>
+			</ul>
+		</div>
+		<script type="text/javascript">
+			var app=angular.module("myapp",[])
+			app.controller("aaa",
+function($scope, $http,$timeout) {
+	$scope.data=[];
+	var timer;
+	$scope.change = function(name) {
+		console.log("run")
+		$timeout.cancel(timer)
+		timer=$timeout(function(){
+			$http({
+			method: "JSONP",
+			url: "https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd="+name+"&json=1&p=3&cb=JSON_CALLBACK"
+		}).success(function(data) { 
+			console.log(data)
+			$scope.data=data.s;
+		})
+		},500)
+		
+		
+	}
+	/*$http.get("http://127.0.0.1/studyphp/data.php").success(
+					function(data,state,headers,config){
+					console.log(data,state,headers,config)
+				})*/
+				
+				
+				
+			})
+		</script>
+	</body>
+
+</html>

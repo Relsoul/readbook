@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html ng-app="myapp">
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="angular.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+		</style>
+	</head>
+	<body>
+		<div ng-controller="aaa as a1 " ng-init="a1.text='bon'"> <!--ng-init 设置变量 同时会覆盖scope设置的变量-->
+			<p>fnAaa构造函数上的:{{a1.text}}</p>
+			<p>$socpe.hi:{{hi}} </p>
+			<div ng-repeat="arr0 in arr" ng-init="arr0index=$index ">
+				<p ng-repeat="arr1 in arr0"  ng-init="arr1index=$index ">arr0Index:{{arr0index}} arr0:{{arr0}} arr1Index:{{arr1index}} arr1:{{arr1}}</p>
+			</div>
+			<input type="text" ng-model="mod" ng-model-options="{updateOn: 'blur' }" /> <!--updateOn: 'blur' 非实时更新-->
+			<p>{{mod}}</p>
+			<p>做个数据添加功能</p>
+			<div>
+				<p>name: <input type="text" ng-value="a1.name" /> <button ng-click="a1.hi()">hi</button></p>
+				<ul>
+				<li ng-repeat="con in a1.datalist">
+					name:  <span>{{con.name}}</span>
+					<select  ng-model="point">
+						<option ng-value="email">email</option>
+						<option ng-value="phone">phone</option>
+					</select>
+					<input type="text" ng-value="con[point]" />
+				</li>
+				</ul>
+				<p>添加</p>
+				<select name="" ng-model="a1.data" >
+					<option ng-value="email">email</option>
+					<option ng-value="phone">phone</option>
+				</select>
+				<button ng-click="fn()">当前model</button>
+				<input type="text" ng-model="a1.ls[a1.data]" />
+				<button>添加</button>
+			</div>
+		</div>
+		<script type="text/javascript">
+var app=angular.module("myapp",[])
+/*			app.controller("aaa",function($scope){
+			$scope.text="hello";
+			$scope.arr=[["a","b"],["c","d"]]
+			})*/
+			
+/*			controller面向对象写法*/
+
+		app.controller("aaa",["$scope",fnAaa]);
+		
+		
+		function fnAaa($scope){
+			//仍旧可以用$scope
+			this.text="hello";
+			$scope.hi="hi";
+			$scope.arr=[["a","b"],["c","d"]];
+			this.name="myname";
+			this.datalist=[{"name":"soul","email":"ww@qq.com","phone":"131xxxx"},
+			{"name":"noname","email":"www@sina.com","phone":""}
+			]
+			$scope.point="email"
+			
+			$scope.$watch("point",function(newValue,oldValue){
+				console.log(newValue,oldValue)
+			})
+			
+			$scope.fn=function(){
+				console.log($scope.data)
+			}
+			
+			this.ls={}
+			this.inputdata=null;
+			this.data="email"
+			
+		}
+		
+		fnAaa.prototype.hi=function(){
+			alert(this.name)
+		}
+		
+	
+		
+		</script>
+	</body>
+</html>

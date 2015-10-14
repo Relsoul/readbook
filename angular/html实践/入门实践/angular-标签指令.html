@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html ng-app="myapp">
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="angular.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+		input.ng-valid{border: 3px solid green;}
+		input.ng-invalid{border: 3px solid red;}
+		</style>
+	</head>
+	<body>
+		<div ng-controller="aaa">
+			<a href="">{{mycolor.name}}</a> <!--angular a标签无默认行为-->
+			<select name="" ng-model="mycolor" ng-options="color .name  for color in colors">
+				<option value="">默认</option>
+			</select><!--ng-options与ng-model得配合-->
+			<form action="" novalidate>
+				<input type="email" />
+			
+			</form><!--novalidate 阻止表单默认行为样式-->
+			<p>表单验证</p>
+			<form novalidate name="myForm">
+				<input type="text"  name="myName" ng-model="text" required ng-minlength="5" ng-pattern="/^[a-zA-Z]+$/" />
+				<div>$valid:{{myForm.myName.$valid}}</div>
+				<div>$invalid:{{myForm.myName.$invalid}}</div>
+				<div>$pristine:{{myForm.myName.$pristine}}</div>
+				<div>$dirty:{{myForm.myName.$dirty}}</div>
+				<div>$error:{{myForm.myName.$error}}</div>
+				<p> required:true　判断输入框是否为空</p>
+				<p>false为通过 true为不通过</p>
+				<p ng-hide="myForm.myName.$error.minlength">mingth:true为隐藏 false为显示</p>
+				<p ng-hide="myForm.myName.$error.pattern">pattern:true为隐藏 false为显示</p>
+			</form>
+ 		</div>
+		<script type="text/javascript">
+			var app=angular.module("myapp",[])
+			app.controller("aaa",function($scope){
+			$scope.colors=[{name:"red"},{name:"green"},{name:"yellow"}]
+			$scope.text="hello"
+/*			$valid 验证成功 true 失败false
+ * 			$invalid 验证失败true 成功false
+ * 			$pristine 初始值未被修改 true 修改 false
+ * 			$dirty 修改验证初始值true 未被修改 false
+ * 			$error 验证成功失败验证信息都存储在
+ * 			得配合ng-model
+ * 
+ * 
+ * 
+			*/
+			})
+		</script>
+	</body>
+</html>

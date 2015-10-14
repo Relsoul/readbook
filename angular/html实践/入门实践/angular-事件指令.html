@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html ng-app="myapp">
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="angular.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div ng-controller="aaa">
+			<input type="checkbox" name="" id="" value=""  ng-model="check"  />
+			<select name="" >
+				<option value=""  >111</option>
+				<option value="" ng-selected="check"  >222</option>
+			</select>
+			<input type="text" name="" id="" value="" ng-model="bbb" ng-change="bbb='hello'" />{{bbb}} <br />
+			<input type="text" name="" id="" value="sfs" ng-copy="ccc='copy'" />{{ccc}} <br />
+			<input type="text" ng-mouseover="ddd='移入'" ng-mouseout="ddd='移出'" />{{ddd}}
+		</div>
+		<script type="text/javascript">
+			var app=angular.module("myapp",[])
+			app.controller("aaa",function($scope){
+			$scope.check=false;
+			})
+		</script>
+	</body>
+</html>

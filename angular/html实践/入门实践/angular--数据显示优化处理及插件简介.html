@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html ng-app="myapp">
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="angular.js" type="text/javascript" charset="utf-8"></script>
+		<script src="http://apps.bdimg.com/libs/angular.js/1.4.0-beta.4/angular-sanitize.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div ng-controller="aaa">
+			<div >{{text}},{{text}}</div>  <!--ng-bind只支持一个表达式 多个表达式可以采用ng-bind-template-->
+			<div ng-bind-template="{{text}} 我是分隔符 {{text}}"></div>
+			<div ng-bind-html="html"></div>
+			<div ng-cloak>{{text}}</div> <!--ng-cloak:display:none 解析完毕后为block-->
+			<div ng-non-bindable>{{text}}</div>  <!--ng-non-bindable 表达式不解析..-->
+		</div>
+		<script type="text/javascript">
+			var app=angular.module("myapp",["ngSanitize"])
+			app.controller("aaa",function($scope,$interval){
+			$scope.text="hello"
+			/*	如果想解析$scope.text="<h1>hello</h1>"请使用angular-sanitize 通过ng-bind-html*/
+			$scope.html="<h1>hello</h1>"
+
+			
+			
+			
+			
+			})
+		</script>
+	</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html ng-app="myapp">
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="angular.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+		</style>
+	</head>
+	<body>
+		<div ng-controller="aaa">
+			<button ng-click="show=!show">{{show}}</button>
+			<div  ng-show="show">{{text}}</div> 
+			<div ng-hide="show">hide</div>
+			<div  ng-if="show">{{text}},ng-if</div> <!--ng-if对DOM节点进行添加删除 true添加 false删除-->
+			<div ng-switch on="show">
+				<p ng-switch-default>默认效果</p>
+				<p ng-switch-when="true">切换的效果</p>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var app=angular.module("myapp",[])
+			app.controller("aaa",function($scope){
+			$scope.text="hello"
+			$scope.show=false
+			})
+		</script>
+	</body>
+</html>

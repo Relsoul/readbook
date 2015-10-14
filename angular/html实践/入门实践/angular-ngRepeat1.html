@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html ng-app="my">
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src='angular.js' type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div ng-controller="aaa" >
+			<input type="text" name="" id="" value="" ng-model="searchval" /><button ng-click="fnSearch()">搜索</button>
+				<table border="1" cellspacing="" cellpadding="">
+					<tr><th ng-click="fnSort('name')">姓名</th>
+						<th ng-click="fnSort('age')">年龄</th>
+					</tr>
+					<tr ng-repeat="data in datalist">
+					<td>{{data.name}}</td>
+					<td>{{data.age}}</td>
+					</tr>
+				</table>
+		</div>
+		<script type="text/javascript">
+			var app=angular.module("my",[]);
+		app.controller("aaa",function($scope,$filter){
+			
+			var oriArr=[
+			{name:"red",age:"20"},{name:"black",age:"25"},{name:"green",age:"40"},{name:"blue",age:"45"}
+			]
+			
+			$scope.datalist=oriArr
+			
+			$scope.fnSort=function(arg){
+				//通过在函数本身上挂载属性来实现点击互不影响取反功能
+				arguments.callee["fnSort"+arg]=!arguments.callee["fnSort"+arg];
+				//排序 
+				/*
+				 * $scope.datalist,arg  通过arg来确定排序 排序内容为datalist
+				 * */
+				$scope.datalist=$filter("orderBy")(oriArr,arg,arguments.callee["fnSort"+arg])
+			}
+
+			$scope.fnSearch=function(){
+				$scope.datalist=$filter("filter")(oriArr,$scope.searchval)
+			}
+			
+			})
+		
+		</script>
+	</body>
+</html>

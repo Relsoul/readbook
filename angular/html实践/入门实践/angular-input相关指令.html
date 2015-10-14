@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html ng-app="myapp">
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="angular.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div ng-controller="aaa">
+		<button ng-disabled="isDisabled">{{time}}</button>
+		<input type="text" ng-value="time"  ng-readonly="isDisabled" /> <!--倒计时结束之前无法操作 因为是readonly value="{{time}}" -->
+		<input type="checkbox" ng-checked="!isDisabled" ng-disabled="isDisabled" />
+		</div>
+		<script type="text/javascript">
+			var app=angular.module("myapp",[])
+			app.controller("aaa",function($scope,$interval){
+			$scope.time=5;
+			$scope.isDisabled=true;
+			var timer=$interval(function(){
+				$scope.time--
+				if($scope.time<=0){$scope.isDisabled=false;  $interval.cancel(timer)  }
+			},1000)
+			
+			//原生setInterval实现
+	/*var timer=setInterval(function(){
+				$scope.time--
+				$scope.$apply()
+				if($scope.time<=0){$scope.isDisabled=false;$scope.$apply(); clearInterval(timer)}
+			},1000)*/
+			
+			
+			
+			
+			})
+		</script>
+	</body>
+</html>

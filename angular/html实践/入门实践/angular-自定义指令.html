@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html ng-app="myapp">
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="angular.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+		#div1 .active{
+			background: red;
+		}
+		#div1 div{
+			border: 1px solid black;
+			width: 200px;
+			height: 200px;
+			display: none;
+		}
+		</style>
+	</head>
+	<body>
+<!--		<my-hello></my-hello>
+		<p my-hello></p>-->
+	<!--	<p class="hello"></p>-->
+		<div ng-controller="aaa">
+
+ 		</div>
+ 		
+ 		<my-tab></my-tab>
+		<script type="text/javascript">
+			var app=angular.module("myapp",[])
+			app.controller("aaa",function($scope){
+			
+			})
+			
+			app.directive("myTab",function(){
+				return{
+					restrict:"E",//E:元素 A:属性 C:class
+					replace:"true",//替换
+					template:'',
+					templateUrl:"temp.html"
+				}
+			})
+			
+		</script>
+	</body>
+</html>

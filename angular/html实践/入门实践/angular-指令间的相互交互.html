@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html ng-app="myapp">
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="angular.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div ng-controller="aaa">
+			<hello>
+				<hi></hi>
+			</hello>
+		</div>
+		<script type="text/javascript">
+			var app=angular.module("myapp",[])
+			app.controller("aaa",function($scope){
+			})
+			app.directive("hello",function(){
+				return{
+					restrict:"E",
+					replace:true,
+					transclude:true,
+					controller:function($scope){
+/*						$scope.name="soul"*/
+						this.name="soul";// 其他指令获取到值
+					},
+					template:"<div>hello angular <ng-transclude></ng-transclude></div>"
+				}
+			})
+			app.directive("hi",function(){
+				return{
+					restrict:"E",
+					replace:true,
+					require:"^hello",//加上^ 去父级身上找指令
+					template:"<span>hi angular</span>",
+					link:function(scope,element,attr,reController){
+						console.log(reController)
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

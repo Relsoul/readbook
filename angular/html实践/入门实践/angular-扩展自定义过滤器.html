@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html ng-app="my">
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src='angular.js' type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div ng-controller="aaa" >
+			<h1><a href="http://docs.angularjs.cn/api" target="_blank">过滤器文档</a></h1>
+			<p>limitTo+uppercase:{{str|limitTo:2|uppercase}}</p><!--截取前2位-->
+			<p>JS中使用过滤器:{{str1}}</p>
+			<p>JS number 传参:{{str2}}</p>
+			<p>自定义过滤器 首字母大写:{{str3|firstUpper}}</p>
+		</div>
+		<script type="text/javascript">
+		/* 过滤器形式
+		 * {{name | val}}
+		 * val{
+		 * 		
+		 * }
+		 * 过滤器传参
+		 * {{name | val:"arg":val2:"arg"}}
+		 * */
+		
+			var app=angular.module("my",[]);
+			//依赖注入filter服务
+		app.controller("aaa",function($scope,$filter){
+			$scope.str="angular";
+			$scope.str1=$filter("uppercase")("my angular")
+			//filter传参 2 保留两位小数
+			$scope.str2=$filter("number")(2334.2355454,2)
+			$scope.str3="soul";
+			
+			
+			})
+		
+		app.filter("firstUpper",function(){
+			return function(str){
+				//str 为传入过来的name
+				return str.charAt(0).toUpperCase()+str.substring(1)
+			}
+		})
+
+		
+		
+		
+		</script>
+	</body>
+</html>

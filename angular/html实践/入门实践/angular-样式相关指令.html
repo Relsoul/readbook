@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html ng-app="myapp">
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="angular.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			.red{
+				background: red;
+			}
+			.yellow{
+				background: yellow;
+			}
+		</style>
+	</head>
+	<body>
+		<div ng-controller="aaa">
+			<div ng-class="sclass" >{{text}}</div>   <!--ng-class="{red:true}" 激活样式-->
+			<div ng-style="style">{{text}}</div>
+			<a  ng-href="{{url}}">url</a>
+			<a ng-href="{{url}}" ng-attr-title="{{text}}" >url2</a>
+		</div>
+		<script type="text/javascript">
+			var app=angular.module("myapp",[])
+			app.controller("aaa",function($scope,$interval){
+			$scope.text="hello"
+			$scope.style={color:'red',background:'yellow'}
+			$scope.sclass={red:true,yellow:true}
+			$scope.url="http://baidu.com"
+			})
+		</script>
+	</body>
+</html>

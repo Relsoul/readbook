@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html ng-app="myapp">
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="angular.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+		input.ng-valid{border: 3px solid green;}
+		input.ng-invalid{border: 3px solid red;}
+		.ok{border: 3px solid green;}
+		.error{border: 3px solid red;}
+		</style>
+	</head>
+
+	<body>
+		<div ng-controller="aaa">
+			<form novalidate name="regs">
+				<div>
+					<label for="">用户名:</label>
+					<input type="text" name="user" ng-model="user" required ng-pattern="/^[a-zA-Z]+$/" ng-blur="change('regText',regs.user.$error)" />
+					<span ng-repeat="data in regText.regList | filter: regText.regVal ">{{data.tips}}</span>
+				</div>
+				<div>
+					<label for="">密码:</label>
+					<input type="password" name="pw" ng-model="pw" required ng-pattern="/[a-zA-Z]+[0-9]+/" ng-blur="change('regPassword',regs.pw.$error)" />
+					<span ng-repeat="data in regPassword.regList | filter: regPassword.regVal ">{{data.tips}}</span>
+				</div>
+				<div>
+					<label for="">再次确认密码</label>
+					<input type="password" ng-model="agpw" ng-blur="checkPw()" ng-class="{error:true}" />
+					<span>{{pwtext}}</span>
+				</div>
+			</form>
+
+		</div>
+		<script type="text/javascript">
+			var app = angular.module("myapp", [])
+			 app.controller("aaa", function($scope) {
+			 	$scope.regPassword={
+			 		regVal:"default",
+			 		regList:[{
+			 			name:"default",tips:"请输入密码"
+			 		},{name:"require",tips:"密码不能为空"},{name:"pattern",tips:"密码必须为字母和数字"},{name:"pass",tips:"√"}],
+			 	}
+			 	$scope.regText={
+			 		regVal:"default",
+			 		regList:[{
+			 			name:"default",tips:"请输入用户名"
+			 		},{name:"require",tips:"用户名不能为空"},{name:"pattern",tips:"用户名必须为字母"},{name:"pass",tips:"√"}],
+			 	}
+			 	
+			 	$scope.change=function(reg,err){
+			 			console.log(err)
+			 			for(var attr in err){
+			 				if(err[attr]==true){
+			 					$scope[reg].regVal=attr;
+			 					return
+			 				}
+			 			}
+			 			$scope[reg].regVal="pass"
+			 		}
+			 	
+			 	$scope.checkPw=function(){
+			 		if($scope.pw===$scope.agpw){
+			 			$scope.pwtext={"class":"ok","tips":"√"}
+			 		}else{
+			 			$scope.pwtext={"class":"error","tips":"√"}
+			 		}
+			 	}
+			 	
+			 	$scope.$watch("pw",function(newValue,oldValue){
+			 		console.log(newValue)
+			 	})
+			 })
+		</script>
+	</body>
+
+</html>

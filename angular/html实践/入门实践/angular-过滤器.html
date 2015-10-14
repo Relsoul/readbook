@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html ng-app="my">
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src='angular.js' type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div ng-controller="aaa" >
+			<h1><a href="http://docs.angularjs.cn/api" target="_blank">过滤器文档</a></h1>
+			<p>currency:{{name | currency:"%"}}</p>
+			<p>number:{{name | number :2}}</p><!--只保留两位小数-->
+			<p>lowercase/uppercase:{{upcase|uppercase}}/{{lowcase|lowercase}}</p>
+			<pre>json:{{jsond|json}}</pre>
+			<p>limitTo:{{str|limitTo:2}}</p><!--截取前2位-->
+			<p>date:{{dated|date:"yyyy-MM-dd HH:mm:ss"}}</p><!--毫秒格式化日期-->
+			<p>orderBy{{color|orderBy:"color":true}}</p> <!--以color进行排序(按照字符串大小写比如 a-z) true:逆排序-->
+			<p>filter:{{color|filter:"red":true}}</p><!--过滤出red true:匹配整体 
+			-->
+		</div>
+		<script type="text/javascript">
+		/* 过滤器形式
+		 * {{name | val}}
+		 * val{
+		 * 		
+		 * }
+		 * 过滤器传参
+		 * {{name | val:"arg":val2:"arg"}}
+		 * */
+		
+			var app=angular.module("my",[]);
+		app.controller("aaa",function($scope){
+			$scope.name="2000.2332";
+			$scope.upcase="hello";
+			$scope.lowcase="HELLO"
+			$scope.jsond={"name":"angular","ver":"1.3","other":[1,2,3,4,{"arr":"testarr"}]}
+			$scope.str=["angular","ver","other","arr"];
+			$scope.dated=1234334546536;
+			setInterval(function(){
+				$scope.$apply($scope.dated+=1000)
+			},1000);
+			$scope.color=[{"color":"red","age":20},{"color":"black","age":10},
+			{"color":"green","age":40},{"color":"origin","age":50}]
+			
+
+			
+			})
+		
+		</script>
+	</body>
+</html>

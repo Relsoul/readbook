@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html ng-app="myapp">
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="angular.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			.active{
+				background: red;
+			}
+			.activeo{
+				background: blue;
+			}
+		</style>
+	</head>
+	<body>
+		<div ng-controller="aaa">
+			<ul>
+<!--				<li ng-repeat="data in datalist">{{data}} index:{{$index}} first: {{$first}} last:{{$last}} middle:{{middle}}</li>-->
+			<li ng-repeat="data in datalist" class="{{$even?'active':'activeo'}}">{{data}}</li>
+			</ul>
+			<div ng-repeat-start="data in datalist">{{data}}	</div>
+				<p>{{data}}</p>
+				<div ng-repeat-end>{{data}}</div>
+
+		</div>
+		<script type="text/javascript">
+			var app=angular.module("myapp",[])
+			app.controller("aaa",function($scope){
+				$scope.datalist=["aaa","bbb","ccc","ddd"]
+			})
+			
+			
+		</script>
+	</body>
+</html>

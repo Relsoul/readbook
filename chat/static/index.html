@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html ng-app="nodeChat">
+	<head>
+		<meta charset="utf-8">
+		<title>chat-01</title>
+		<link rel="stylesheet" type="text/css" href="style.css" />
+		<!--		引入socket-->
+		<script src="http://127.0.0.1:3100/socket.io/socket.io.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/components/angular/angular.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<header>
+			<h1>node+angular聊天室</h1>
+		</header>
+		<div id="container" class="center_lib">
+			<div class="chat" ng-controller="roomCtrl">
+				<div class="chat_head">chat聊天室</div>
+				<div class="chat_body">
+					<div class="list_group" autoBottom>
+						<div class="list_group_item" ng-repeat="message in messages track by $index">
+							某某:{{message}}
+						</div>
+					</div>
+					<form class="message_submit" ng-controller="messageCtrl">
+						<textarea required class="message_input" ng-model="newMessage" ctrl-br="createMessage()"></textarea>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<script src="chat.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html>
