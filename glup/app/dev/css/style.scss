@@ -1,0 +1,9 @@
+$font-Size:14px;
+body{
+  font-size: $font-Size;
+  & .box{
+    width: 100px;
+    height: 100px;
+    background: black;
+  }
+}

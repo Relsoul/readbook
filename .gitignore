@@ -1,2 +1,7 @@
 /angular/html实践/node_modules/
-
+**/node_modules
+*/node_modules
+/*/**/node_modules
+/**/node_modules
+chat/node_modules
+/chat/node_modules
