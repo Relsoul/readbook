@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<script type="text/javascript">
+	function binarySearch(arr,value){
+		var startIndex=0;
+		var stopIndex=arr.length-1;
+		var middle=Math.floor((startIndex+stopIndex)/2);
+
+		//判断是否数据就在中间
+		while(arr[middle]!=value&&startIndex<stopIndex){
+			//小于则在数组的左边
+			if(value<arr[middle]){
+				stopIndex=middle-1
+			//大于中间数字则start往中间靠
+			}else if(value>arr[middle]){
+				startIndex=middle+1
+			}
+			middle=Math.floor((startIndex+stopIndex)/2);
+		}
+		return value;
+	}
+
+
+
+
+</script>
+	
+</body>
+</html>

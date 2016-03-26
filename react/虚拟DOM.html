@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="bower_components/react/react.js"></script>
+    <script src="bower_components/react/react-dom.js"></script>
+</head>
+<body>
+<div id="content">
+
+</div>
+<script>
+    var t0=new Date().getTime();
+    setInterval(function(){
+        var t=new Date().getTime(),
+                delta=t-t0;
+        //在虚拟DOM上创建元素
+        var e1=React.createElement("p",null,delta);
+        ReactDOM.render(e1,document.querySelector("#content"))
+    },10)
+
+</script>
+</body>
+</html>

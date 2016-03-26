@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="http://apps.bdimg.com/libs/angular.js/1.4.0-beta.4/angular.min.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+<body>
+<div ng-controller="myCtrl">
+    <input type="text" ng-model="msg"/>
+    <div>{{msg}}</div>
+</div>
+<script>
+    var app=angular.module("app",[])
+    app.controller("myCtrl",function($scope){
+        $scope.msg="请输入"
+    })
+</script>
+</body>
+</html>

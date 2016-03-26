@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="bower_components/react/react.js"></script>
+    <script src="bower_components/react/react-dom.js"></script>
+    <style>
+        .ez-led{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<div id="content">
+</div>
+<script>
+    var EzLedComp=React.createClass({
+        //render()应该返回一个元素
+        render: function () {
+            var e=React.createElement(
+                    "div",
+                    {className:"ez-led"},
+                    "Hello,React!",
+                    React.createElement("div",      {className:"ez-led"},"2014")
+            )
+            return e
+        }
+    })
+    // 创建react元素
+    var el=React.createElement(EzLedComp)
+    // 渲染
+    ReactDOM.render(el,document.querySelector("#content"))
+</script>
+</body>
+</html>

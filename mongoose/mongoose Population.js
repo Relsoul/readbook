@@ -25,7 +25,7 @@ var ClassModel=db.model("ClassName",ClassSchema);
 
 var _Class,_Name;
 
-_Class=new ClassModel({
+/*_Class=new ClassModel({
     className:"数学",
     credit:5
 })
@@ -35,9 +35,15 @@ _Class.save(function(err,doc){console.log(doc)})
     className:"语文",
     credit:10
 })
-_Class.save(function(err,doc){console.log(doc)})
 
-_Name=new NameModel({
+_Class=new ClassModel({
+    className:"英语",
+    credit:5
+})
+
+_Class.save(function(err,doc){console.log(doc)})*/
+
+/*_Name=new NameModel({
     name:"小明",
     age:20
 })
@@ -49,15 +55,17 @@ _Name=new NameModel({
     age:25
 })
 
-_Name.save(function(err,doc){console.log(doc)})
+_Name.save(function(err,doc){console.log(doc)})*/
 
 //添加课程
 
 NameModel.findOne({name:"小明"},function(err,doc){
         console.log(57,doc)
         //语文
-        doc.classId.push("5678bd800c79fdf00e15b184")
-        doc.save()
+     /*   doc.classId.push("5683fc81c3f6c65456ea9dc3")
+        doc.classId.push("5678bd800c79fdf00e15b183")
+        doc.classId.push("5683fbc8b96a04644d208479")
+        doc.save()*/
         // 连表查询小明选择的课程
         NameModel
             .findOne({name:"小明"})

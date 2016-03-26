@@ -1,0 +1,1 @@
+var autoJS=require("./dev/autoJS.js")
